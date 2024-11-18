@@ -1,0 +1,15 @@
+@mixin font-bold {
+  font-family: "Gilroy-Bold", sans-serif;
+}
+@mixin font-heavy{
+    font-family: "Gilroy-Heavy", sans-serif;
+}
+@mixin font-light{
+    font-family: "Gilroy-Light", sans-serif;
+}
+@mixin font-medium{
+    font-family: "Gilroy-Medium", sans-serif ;
+}
+@mixin font-regular{
+    font-family: "Gilroy-Regular", sans-serif;
+}
