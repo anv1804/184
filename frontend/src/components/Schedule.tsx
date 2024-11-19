@@ -253,39 +253,45 @@ const Calendar: React.FC = () => {
                 placeholder="Select employee(s)"
                 allowClear
                 mode="multiple" // Cho phép đa chọn
+                className="h-10"
               >
                 {employees.map((employee) => (
-                  <Option key={employee.value} value={employee.value}>
-                    <img
-                      src={employee.image}
-                      alt={employee.name}
-                      style={{
-                        width: 24,
-                        height: 24,
-                        borderRadius: "50%",
-                        marginRight: 8,
-                        verticalAlign: "middle",
-                      }}
-                    />
-                    {employee.name}
+                  <Option key={employee.value} value={employee.value} >
+                    <div className="flex justify-start items-center">
+                      <img
+                        src={employee.image}
+                        alt={employee.name}
+                        style={{
+                          width: 24,
+                          height: 24,
+                          borderRadius: "50%",
+                          marginRight: 8,
+                          verticalAlign: "left",
+                        }}
+                      />
+                      <h3>{employee.name}</h3>
+                    </div>
+
                   </Option>
                 ))}
               </Select>
             </Form.Item>
-            <div className="flex gap-6 justify-between">
+            <div className="grid grid-cols-2 gap-6 justify-between">
               <Form.Item
+                className="w-full"
                 name="startDate"
                 label="Start Date"
                 rules={[{ required: true, message: "Please select a start date" }]}
               >
-                <DatePicker showTime placeholder="Select start date" />
+                <DatePicker showTime placeholder="Select start date" className="w-full h-10" />
               </Form.Item>
               <Form.Item
                 name="endDate"
                 label="End Date"
+                className="w-full"
                 rules={[{ required: true, message: "Please select an end date" }]}
               >
-                <DatePicker showTime placeholder="Select end date" />
+                <DatePicker showTime placeholder="Select end date" className="w-full h-10" />
               </Form.Item>
             </div>
           </Form>

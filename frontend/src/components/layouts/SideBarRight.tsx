@@ -36,23 +36,11 @@ const courses: Course[] = [
   { title: 'Color Psychology', platform: 'uxcel', icon: 'https://via.placeholder.com/40' },
 ];
 
-// const CalendarGrid: React.FC = () => {
-//   return (
-//     <div className="grid grid-cols-7 text-center text-sm mb-4">
-//       {Array.from({ length: 30 }, (_, index) => (
-//         <span key={index} className={`p-1 ${index === 23 ? 'bg-blue-200 rounded-full' : ''}`}>
-//           {index + 1}
-//         </span>
-//       ))}
-//     </div>
-//   );
-// };
-
-const SideBarRight: React.FC = () => {
+const SideBarRight = () => {
   return (
     <Sider width={240} className="h-screen px-[20px] bg-white border-l-[1px] right-0 overflow-y-scroll scrollbar-hide absolute hidden md:block md:sticky translate-x-full md:translate-x-0 z-[100]">
       <nav className="bg-white border-gray-200 dark:bg-gray-900 mb-2 sticky top-0 z-[10]">
-        <div className="bg-white max-w-screen-xl flex flex-wrap items-center justify-between mx-auto  pt-[20px] pb-2">
+        <div className="bg-white max-w-screen-xl flex flex-wrap items-center justify-between mx-auto pt-[20px] pb-2">
           <div className="flex gap-5 items-center">
             <button className="flex items-center">
               <Badge dot color="red">

@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Layout, Menu, Badge, Avatar, Button, Input } from 'antd';
+import React, { useState } from 'react';
+import { Layout, Menu, Avatar, Button, Input } from 'antd';
 import 'tailwindcss/tailwind.css';
-import IconCalendarFlat from '../icons/IconCalendarFlat';
-import IconBagFlat from '../icons/IconBagFlat';
+import IconCalendar from '../icons/IconCalendar';
+import IconBagFlat from '../icons/IconEducation';
 import IconChatFlat from '../icons/IconChatFlat';
 import IconCompany from '../icons/IconCompany';
-import IconFileFlat from '../icons/IconFileFlat';
-import IconPayFlat from '../icons/IconPayFlat';
-import IconNavigatFlat from '../icons/IconNavigatFlat';
+import IconFolder from '../icons/IconFolder';
+import IconWallet from '../icons/IconWallet';
 import { Link } from 'react-router-dom';
 import IconLogoutFlash from '../icons/IconLogoutFlash';
 import IconUploadFlat from '../icons/IconUploadFlat';
 import IconMenuFlat from '../icons/IconMenuFlat';
-import { useSidebar } from '../../helper/sidebarHelper';
-import { PlusOutlined } from '@ant-design/icons';
+import { useSidebar } from '../../helpers/sidebarHelper';
 import IconSearch from '../icons/IconSearch';
+import IconFlash from '../icons/IconFlash';
+import IconEducation from '../icons/IconEducation';
+import IconChat from '../icons/IconChat';
 
 const { Sider } = Layout;
 
@@ -59,16 +60,17 @@ const SideBarLeft = () => {
         <div className="w-full overflow-x-hidden">
           <div className="flex flex-col items-center py-4 overflow-x-hidden">
             {/* Logo */}
-            <div className={`text-blue-500 text-2xl font-semibold mb-4 ${collapsed ? 'text-2xl' : ''}`}>
-              Teach.
-            </div>
+            <h2 className={`logo1 text-blue-500 text-4xl font-semibold uppercase mb-4 ${collapsed ? 'text-2xl' : ''}`}>
+              Tclass.
+            </h2>
 
             {/* User Profile */}
             <div
               className={`flex gap-2 w-[80%] items-center justify-start pb-4 border-b-[1px] ${collapsed ? 'justify-center' : ''
                 }`}
             >
-              <Avatar size={collapsed ? 48 : 48} src="https://via.placeholder.com/64" />
+              <Avatar size={collapsed ? 48 : 48} src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+
               {!collapsed && (
                 <div>
                   <div className="text-black font-bold">Jone Copper</div>
@@ -84,23 +86,23 @@ const SideBarLeft = () => {
               className="w-full"
               inlineCollapsed={collapsed}
             >
-              <Menu.Item key="1" icon={<IconNavigatFlat />}>
+              <Menu.Item key="1" icon={<IconFlash />}>
                 <Link to={`/`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Trang Chủ</span>}
                 </Link>
               </Menu.Item>
-              <Menu.Item key="2" icon={<IconCalendarFlat />}>
+              <Menu.Item key="2" icon={<IconCalendar />}>
                 <Link to={`/lich-trinh`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Lịch Trình</span>}
                 </Link>
               </Menu.Item>
-              <Menu.Item key="3" icon={<IconBagFlat />}>
-                <Link to={`/lop-hoc`}>
+              <Menu.Item key="3" icon={<IconEducation />}>
+                <Link to={`/`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Lớp Học</span>}
                 </Link>
               </Menu.Item>
-              <Menu.Item key="4" icon={<IconChatFlat />}>
-                <Link to={`/tro-chuyen`}>
+              <Menu.Item key="4" icon={<IconChat />}>
+                <Link to={`/`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Trò Chuyện</span>}
                 </Link>
               </Menu.Item>
@@ -109,13 +111,13 @@ const SideBarLeft = () => {
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Trang Chủ</span>}
                 </Link>
               </Menu.Item>
-              <Menu.Item key="6" icon={<IconFileFlat />}>
-                <Link to={`/tai-lieu`}>
+              <Menu.Item key="6" icon={<IconFolder />}>
+                <Link to={`/`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Tài Liệu</span>}
                 </Link>
               </Menu.Item>
-              <Menu.Item key="7" icon={<IconPayFlat />}>
-                <Link to={`/vi`}>
+              <Menu.Item key="7" icon={<IconWallet />}>
+                <Link to={`/`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Ví</span>}
                 </Link>
               </Menu.Item>

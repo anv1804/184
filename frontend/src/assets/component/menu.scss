@@ -1,0 +1,51 @@
+.ant-menu {
+  &-item {
+    width: 100% !important;
+    border-radius: 0px !important;
+    position: relative;
+    margin: 7px 0px !important;
+    height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    &::before {
+      position: absolute;
+      content: "";
+      width: 4px;
+      height: 100%;
+      background-color: #0177fb;
+      left: 0;
+      transform: translateX(-100%);
+      transition: 0.3s ease-in-out;
+    }
+    > svg {
+      color: #a5b4cb;
+    }
+    .ant-menu-title-content {
+      font-size: 14px;
+    }
+    &-selected {
+      // background-color: red !important;
+      &::before {
+        transform: translateX(0%);
+      }
+      > svg {
+        color: #0177fb;
+        transition: 0.3s ease-in-out;
+      }
+      .ant-menu-title-content {
+        transition: 0.3s ease-in-out;
+      }
+    }
+  }
+  &-title-content {
+    // margin-left: 8px;
+  }
+  &-light {
+    &.ant-menu-root {
+      border: none !important;
+    }
+  }
+  &-inline-collapsed {
+    width: 100% !important;
+  }
+}
