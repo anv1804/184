@@ -1,25 +1,56 @@
 const Teacher = require('../models/Teacher');
+const Class = require('../models/Class');
+const Subject = require('../models/Subject');
 
-// Lấy danh sách giáo viên
-const getTeachers = async (req, res) => {
+// Tạo giáo viên mới
+const createTeacher = async (req, res) => {
   try {
-    const teachers = await Teacher.find();
-    res.json(teachers);
+    const { name, age, gender, email, password, avatar, description, subject, homeroom_class, classes_taught } = req.body;
+
+    // Kiểm tra xem môn học và lớp chủ nhiệm có hợp lệ không
+    const subjectObj = await Subject.findById(subject);
+    const homeroomClass = await Class.findById(homeroom_class);
+
+    if (!subjectObj) {
+      return res.status(400).json({ message: 'Môn học không tồn tại' });
+    }
+    if (!homeroomClass) {
+      return res.status(400).json({ message: 'Lớp chủ nhiệm không tồn tại' });
+    }
+
+    const teacher = new Teacher({
+      name,
+      age,
+      gender,
+      email,
+      password,
+      avatar,
+      description,
+      subject,
+      homeroom_class,
+      classes_taught
+    });
+
+    await teacher.save();
+    res.status(201).json(teacher);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: 'Lỗi khi tạo giáo viên' });
   }
 };
 
-// Thêm giáo viên mới
-const addTeacher = async (req, res) => {
-  const { name, gender, dob, address, phone, email, main_subject } = req.body;
+// Lấy tất cả giáo viên
+const getAllTeachers = async (req, res) => {
   try {
-    const teacher = new Teacher({ name, gender, dob, address, phone, email, main_subject });
-    const savedTeacher = await teacher.save();
-    res.status(201).json(savedTeacher);
+    const teachers = await Teacher.find().populate('subject homeroom_class classes_taught');
+    res.status(200).json(teachers);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: 'Lỗi khi lấy danh sách giáo viên' });
   }
 };
 
-module.exports = { getTeachers, addTeacher };
+module.exports = {
+  createTeacher,
+  getAllTeachers,
+};

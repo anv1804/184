@@ -1,8 +1,8 @@
 const express = require('express');
-const { getTeachers, addTeacher } = require('../controllers/teacherController');
-const { protect } = require('../middleware/authMiddleware');
 const router = express.Router();
+const teacherController = require('../controllers/teacherController');
 
-router.route('/').get(protect, getTeachers).post(protect, addTeacher);
+router.post('/teachers', teacherController.createTeacher);
+router.get('/teachers', teacherController.getAllTeachers);
 
 module.exports = router;

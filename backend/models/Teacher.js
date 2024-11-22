@@ -1,17 +1,20 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const teacherSchema = mongoose.Schema({
+const teacherSchema = new Schema({
   name: { type: String, required: true },
+  age: { type: Number, required: true },
   gender: { type: String, required: true },
-  dob: { type: Date, required: true },
-  address: { type: String, required: true },
-  phone: { type: String, required: true },
   email: { type: String, required: true },
-  photo: { type: String },
-  main_subject: { type: String, required: true },
-  is_homeroom_teacher: { type: Boolean, default: false },
-  social_insurance: { type: String },
-  bank_account: { type: String },
-}, { timestamps: true });
+  avatar: { type: String },
+  description: { type: String },
+  subject: { type: String, required: true },
+  class_id: { type: Schema.Types.ObjectId, ref: 'Class', required: true }, // Sử dụng ObjectId để liên kết với lớp
+  classesTaught: [{ type: String }]
+}, {
+  timestamps: true
+});
 
-module.exports = mongoose.model('Teacher', teacherSchema);
+const Teacher = mongoose.model('Teacher', teacherSchema);
+
+module.exports = Teacher;

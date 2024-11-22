@@ -97,7 +97,7 @@ const SideBarLeft = () => {
                 </Link>
               </Menu.Item>
               <Menu.Item key="3" icon={<IconEducation />}>
-                <Link to={`/`}>
+                <Link to={`/lop-hoc`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Lớp Học</span>}
                 </Link>
               </Menu.Item>

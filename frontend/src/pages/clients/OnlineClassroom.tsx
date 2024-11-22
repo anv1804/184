@@ -23,8 +23,6 @@ const OnlineClassroom: React.FC = () => {
             },
         };
 
-        // Tạo API của Jitsi
-        // @ts-ignore
         const api = new (window as any).JitsiMeetExternalAPI(domain, options);
 
         return () => api?.dispose();
