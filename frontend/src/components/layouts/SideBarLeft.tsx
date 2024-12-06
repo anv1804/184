@@ -1,21 +1,18 @@
-import React, { useState } from 'react';
-import { Layout, Menu, Avatar, Button, Input } from 'antd';
-import 'tailwindcss/tailwind.css';
-import IconCalendar from '../icons/IconCalendar';
-import IconBagFlat from '../icons/IconEducation';
-import IconChatFlat from '../icons/IconChatFlat';
-import IconCompany from '../icons/IconCompany';
-import IconFolder from '../icons/IconFolder';
-import IconWallet from '../icons/IconWallet';
-import { Link } from 'react-router-dom';
-import IconLogoutFlash from '../icons/IconLogoutFlash';
-import IconUploadFlat from '../icons/IconUploadFlat';
-import IconMenuFlat from '../icons/IconMenuFlat';
-import { useSidebar } from '../../helpers/sidebarHelper';
-import IconSearch from '../icons/IconSearch';
-import IconFlash from '../icons/IconFlash';
-import IconEducation from '../icons/IconEducation';
-import IconChat from '../icons/IconChat';
+import React, { useState } from "react";
+import { Layout, Menu, Avatar, Button, Input, Upload } from "antd";
+import "tailwindcss/tailwind.css";
+import IconCalendar from "../icons/IconCalendar";
+import IconCompany from "../icons/IconCompany";
+import IconFolder from "../icons/IconFolder";
+import IconWallet from "../icons/IconWallet";
+import { Link } from "react-router-dom";
+import IconLogoutFlash from "../icons/IconLogoutFlash";
+import IconUploadFlat from "../icons/IconUploadFlat";
+import IconMenuFlat from "../icons/IconMenuFlat";
+import { useSidebar } from "../../helpers/sidebarHelper";
+import IconFlash from "../icons/IconFlash";
+import IconEducation from "../icons/IconEducation";
+import IconChat from "../icons/IconChat";
 
 const { Sider } = Layout;
 
@@ -23,23 +20,23 @@ const SideBarLeft = () => {
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => setCollapsed(!collapsed);
   const { isSidebarVisible, toggleSidebar, closeSidebar } = useSidebar();
+  const props = {
+    name: "file",
+    action: "/upload", // URL xử lý upload file
+    headers: {
+      authorization: "Bearer your-auth-token",
+    },
+    onChange(info: any) {
+      if (info.file.status === "done") {
+        console.log(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        console.log(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
+
   return (
-    <div className='w-full md:max-w-[250px] max-w-[768px] overflow-auto absolute md:sticky'>
-      <div className="flex w-full items-center overflow-auto justify-between p-4 border-b-[1px] md:hidden absolute md:sticky ">
-        <div className="flex items-center w-full border rounded-lg ">
-          <Input
-            placeholder="Search"
-            prefix={<IconSearch />}
-            bordered={false}
-            className="w-full px-2 py-2 text-gray-600"
-          />
-        </div>
-        <Button
-          className="ml-4 md:hidden block z-50"
-          icon={<IconMenuFlat />}
-          onClick={toggleSidebar}
-        />
-      </div>
+    <div className="w-full md:max-w-[250px] max-w-[768px] overflow-auto absolute md:sticky">
       {/* Overlay */}
       {isSidebarVisible && (
         <div
@@ -51,34 +48,47 @@ const SideBarLeft = () => {
       {/* Sidebar */}
       <Sider
         width={250}
-        className={`h-screen bg-white border-r-[1px] float-left overflow-x-hidden overflow-y-auto transition-transform duration-300 z-50 top-0  ${isSidebarVisible ? 'translate-x-0 ' : '-translate-x-full '
-          } md:translate-x-0 `}
-        collapsed={collapsed}
+        className={`h-screen bg-white border-r-[1px] float-left overflow-x-hidden overflow-y-auto transition-transform duration-300 z-50 top-0 ${isSidebarVisible ? "translate-x-0 " : "-translate-x-full "
+          } md:translate-x-0`}
         collapsible
-        onCollapse={toggleCollapsed}
+        collapsed={collapsed}
       >
-        <div className="w-full overflow-x-hidden">
-          <div className="flex flex-col items-center py-4 overflow-x-hidden">
-            {/* Logo */}
-            <h2 className={`logo1 text-blue-500 text-4xl font-semibold uppercase mb-4 ${collapsed ? 'text-2xl' : ''}`}>
-              Tclass.
-            </h2>
+        {/* Collapse Button */}
+        <div className="absolute top-4 right-4 z-50">
+          <Button
+            onClick={toggleCollapsed}
+            className="bg-transparent hover:bg-gray-200 border-none shadow-none"
+            icon={<IconMenuFlat />}
+          />
+        </div>
 
-            {/* User Profile */}
-            <div
-              className={`flex gap-2 w-[80%] items-center justify-start pb-4 border-b-[1px] ${collapsed ? 'justify-center' : ''
-                }`}
-            >
-              <Avatar size={collapsed ? 48 : 48} src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+        {/* Logo */}
+        <div className="flex flex-col items-center py-4 overflow-x-hidden">
+          <h2
+            className={`logo1 text-blue-500 text-4xl font-semibold uppercase mb-4 ${collapsed ? "text-2xl" : ""
+              }`}
+          >
+            Tclass.
+          </h2>
 
-              {!collapsed && (
-                <div>
-                  <div className="text-black font-bold">Jone Copper</div>
-                  <div className="text-gray-400 text-[10px]">UI Designer</div>
-                </div>
-              )}
-            </div>
+          {/* User Profile */}
+          <div
+            className={`flex gap-2 w-[80%] items-center justify-start pb-4 border-b-[1px] ${collapsed ? "justify-center" : ""
+              }`}
+          >
+            <Avatar
+              size={collapsed ? 48 : 48}
+              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+            />
 
+            {!collapsed && (
+              <div>
+                <div className="text-black font-bold">Jone Copper</div>
+                <div className="text-gray-400 text-[10px]">UI Designer</div>
+              </div>
+            )}
+          </div>
+          <div className="flex flex-wrap h-full">
             {/* Menu Items */}
             <Menu
               mode="inline"
@@ -117,33 +127,31 @@ const SideBarLeft = () => {
                 </Link>
               </Menu.Item>
               <Menu.Item key="7" icon={<IconWallet />}>
-                <Link to={`/`}>
+                <Link to={`/vi`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Ví</span>}
                 </Link>
               </Menu.Item>
             </Menu>
 
-            {/* New Upload Button */}
-            <div className="mt-8 w-full px-2 absolute bottom-28">
-              <Button
-                icon={<IconUploadFlat />}
-                block
-                className={`${!collapsed ? 'py-10' : 'py-6'
-                  } border-[1px] border-blue-500 text-blue-500 hover:!bg-blue-100`}
-              >
-                {!collapsed && 'Tải Lên'}
-              </Button>
-            </div>
-
-            {/* Logout Button */}
-            <div className="mt-8 w-full px-2 absolute bottom-14 z-50">
-              <Button
-                icon={<IconLogoutFlash />}
-                block
-                className=" py-6 border-[1px] hover:!bg-red-100 hover:!text-red-500 hover:!border-red-500 border-red-500 text-red-500"
-              >
-                {!collapsed && 'Đăng Xuất'}
-              </Button>
+            <div className="w-full h-full">
+              {/* Upload Button */}
+              <div className="mt-8 w-full px-6 ">
+                <Upload {...props} className="!w-full">
+                  <Button
+                    icon={<IconUploadFlat />}
+                    className={`${!collapsed
+                      ? "py-12 "
+                      : "py-6 !bg-transparent !border-none hover:!bg-transparent"
+                      } !rounded-[20px] w-full bg-blue-700 text-white hover:!bg-blue-800 hover:!text-white font-semibold`}
+                  >
+                    {!collapsed && "Upload File"}
+                  </Button>
+                </Upload>
+              </div>
+              {/* Logout Button */}
+              <div className="mt-8 ">
+                <Button icon={<IconLogoutFlash />} block className="!border-none" />
+              </div>
             </div>
           </div>
         </div>

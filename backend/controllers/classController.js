@@ -1,69 +1,100 @@
-const Class = require('../models/Class');
-const Teacher = require('../models/Teacher');
-const Student = require('../models/Student');
-const Subject = require('../models/Subject');
+const mongoose = require("mongoose");
+const Class = require("../models/Class");
 
 // Tạo lớp mới
 const createClass = async (req, res) => {
   try {
-    const { name, homeroom_teacher, students, subjects, grade } = req.body;
-
-    // Kiểm tra xem giáo viên chủ nhiệm, học sinh và môn học có hợp lệ không
-    const homeroomTeacher = await Teacher.findById(homeroom_teacher);
-    if (!homeroomTeacher) {
-      return res.status(400).json({ message: 'Giáo viên chủ nhiệm không tồn tại' });
-    }
-
-    const studentsList = await Student.find({ '_id': { $in: students } });
-    if (studentsList.length !== students.length) {
-      return res.status(400).json({ message: 'Một hoặc nhiều học sinh không tồn tại' });
-    }
-
-    const subjectsList = await Subject.find({ '_id': { $in: subjects } });
-    if (subjectsList.length !== subjects.length) {
-      return res.status(400).json({ message: 'Một hoặc nhiều môn học không tồn tại' });
-    }
-
-    // Tạo lớp mới
-    const newClass = new Class({
-      name,
-      homeroom_teacher,
-      students,
-      subjects,
-      grade
-    });
-
-    await newClass.save();
-    res.status(201).json(newClass);
+    const newClass = new Class(req.body);
+    const savedClass = await newClass.save();
+    res.status(201).json(savedClass);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Lỗi khi tạo lớp học' });
+    res.status(500).json({ message: "Lỗi khi tạo lớp mới", error: error.message });
   }
 };
 
-// Lấy tất cả các lớp học
+// Lấy thông tin tất cả lớp
 const getAllClasses = async (req, res) => {
   try {
-    const classes = await Class.find().populate('homeroom_teacher students subjects');
+    const classes = await Class.find()
+      .populate("homeroomTeacher", "name email")
+      .populate({
+        path: "subjects.subject",
+        select: "name",
+      });
+
+    if (!classes || classes.length === 0) {
+      return res.status(404).json({ message: "Không tìm thấy lớp nào" });
+    }
+
     res.status(200).json(classes);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Lỗi khi lấy danh sách lớp học' });
+    res.status(500).json({ message: "Lỗi khi lấy thông tin lớp", error: error.message });
   }
 };
 
-// Lấy lớp theo ID
+// Lấy thông tin một lớp theo ID
 const getClassById = async (req, res) => {
   try {
-    const classId = req.params.id;
-    const classData = await Class.findById(classId).populate('homeroom_teacher students subjects');
-    if (!classData) {
-      return res.status(404).json({ message: 'Lớp học không tồn tại' });
+    const { id } = req.params;
+
+    const foundClass = await Class.findById(id)
+      .populate("students", "name email")
+      .populate("homeroomTeacher", "name email")
+      .populate({
+        path: "subjects.subject",
+        select: "name",
+      });
+
+    if (!foundClass) {
+      return res.status(404).json({ message: "Lớp không tồn tại" });
     }
-    res.status(200).json(classData);
+
+    res.status(200).json(foundClass);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Lỗi khi lấy thông tin lớp học' });
+    res.status(500).json({ message: "Lỗi khi tìm lớp", error: error.message });
+  }
+};
+
+// Cập nhật thông tin lớp
+const updateClass = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedClass = await Class.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true, runValidators: true }
+    )
+      .populate("students", "name email")
+      .populate("homeroomTeacher", "name email")
+      .populate({
+        path: "subjects.subject",
+        select: "name",
+      });
+
+    if (!updatedClass) {
+      return res.status(404).json({ message: "Lớp không tồn tại" });
+    }
+
+    res.status(200).json(updatedClass);
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi khi cập nhật thông tin lớp", error: error.message });
+  }
+};
+
+// Xoá lớp
+const deleteClass = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedClass = await Class.findByIdAndDelete(id);
+
+    if (!deletedClass) {
+      return res.status(404).json({ message: "Không tìm thấy lớp cần xoá" });
+    }
+
+    res.status(200).json({ message: "Xoá lớp thành công", deletedClass });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi khi xoá lớp", error: error.message });
   }
 };
 
@@ -71,4 +102,6 @@ module.exports = {
   createClass,
   getAllClasses,
   getClassById,
+  updateClass,
+  deleteClass,
 };

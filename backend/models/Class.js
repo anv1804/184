@@ -1,15 +1,21 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose");
 
-const classSchema = new Schema({
-  class_name: { type: String, required: true },
-  grade: { type: String, required: true }, // Grade là 10, 11, 12
-  teacher: { type: Schema.Types.ObjectId, ref: 'Teacher', required: true }, // Lớp có giáo viên chủ nhiệm
-  students: [{ type: Schema.Types.ObjectId, ref: 'Student' }] // Lưu danh sách học sinh theo ObjectId
-}, {
-  timestamps: true
+// Schema cho Class
+const classSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  homeroomTeacher: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  students: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  subjects: [
+    {
+      subject: { type: mongoose.Schema.Types.ObjectId, ref: "Subject" },
+      teacher: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    },
+  ],
+});
+classSchema.virtual("studentsCount").get(function () {
+  return this.students ? this.students.length : 0;
 });
 
-const Class = mongoose.model('Class', classSchema);
-
-module.exports = Class;
+classSchema.set("toObject", { virtuals: true });
+classSchema.set("toJSON", { virtuals: true });
+module.exports = mongoose.model("Class", classSchema);

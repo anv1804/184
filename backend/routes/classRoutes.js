@@ -1,9 +1,27 @@
-const express = require('express');
-const router = express.Router();
-const classController = require('../controllers/classController');
+const express = require("express");
+const {
+  createClass,
+  getAllClasses,
+  getClassById,
+  updateClass,
+  deleteClass,
+} = require("../controllers/classController");
 
-router.post('/classes', classController.createClass);
-router.get('/classes', classController.getAllClasses);
-router.get('/classes/:id', classController.getClassById);
+const router = express.Router();
+
+// Tạo lớp mới
+router.post("/", createClass);
+
+// Lấy thông tin tất cả lớp
+router.get("/", getAllClasses);
+
+// Lấy thông tin lớp theo ID
+router.get("/:id", getClassById);
+
+// Cập nhật thông tin lớp
+router.put("/:id", updateClass);
+
+// Xoá lớp
+router.delete("/:id", deleteClass);
 
 module.exports = router;

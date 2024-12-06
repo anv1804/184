@@ -1,13 +1,10 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const subjectSchema = new Schema({
-  name: { type: String, required: true }, // Tên môn học
-  description: { type: String }, // Mô tả môn học
-}, {
-  timestamps: true
+const subjectSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  teachers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], 
+  academicYear: { type: String, required: true },
+  description: { type: String, required: false } 
 });
 
-const Subject = mongoose.model('Subject', subjectSchema);
-
-module.exports = Subject;
+module.exports = mongoose.model('Subject', subjectSchema);
