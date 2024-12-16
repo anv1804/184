@@ -20,7 +20,6 @@
     "@types/node": "^16.18.119",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "@types/socket.io-client": "^1.4.36",
     "antd": "^5.22.1",
     "axios": "^1.7.9",
     "dayjs": "^1.11.13",
@@ -74,6 +73,7 @@
     "@types/mongoose": "^5.11.96",
     "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-big-calendar": "^1.15.0",
+    "@types/socket.io-client": "^1.4.36",
     "@types/xlsx": "^0.0.35",
     "daisyui": "^4.12.14"
   }

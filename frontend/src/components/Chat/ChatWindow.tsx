@@ -94,17 +94,35 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
   const [searchResults, setSearchResults] = useState<Message[]>([]);
   const [replyingTo, setReplyingTo] = useState<Message | null>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [hasNewMessage, setHasNewMessage] = useState(false);
+  const [isNearBottom, setIsNearBottom] = useState(true);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const otherParticipant = useMemo(() => {
     return conversation.participants.find(p => p._id !== user?._id) || conversation.participants[0];
   }, [conversation.participants, user?._id]);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToBottom = (force = false) => {
+    if (force || isNearBottom) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      setHasNewMessage(false);
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > 0) {
+      scrollToBottom(true);
+    }
+  }, [conversation._id]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      if (isNearBottom) {
+        scrollToBottom();
+      } else {
+        setHasNewMessage(true);
+      }
+    }
   }, [messages]);
 
   const emitTypingStatus = (typing: boolean) => {
@@ -430,6 +448,22 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
     }
   };
 
+  const checkIfNearBottom = () => {
+    const container = messagesContainerRef.current;
+    if (container) {
+      const threshold = 100; // px from bottom
+      const isNear = container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
+      setIsNearBottom(isNear);
+      if (isNear) {
+        setHasNewMessage(false);
+      }
+    }
+  };
+
+  const handleScroll = () => {
+    checkIfNearBottom();
+  };
+
   if (loading) {
     return (
       <div className="flex flex-col h-full flex-1 items-center justify-center">
@@ -455,8 +489,12 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
         </div>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4">
+      {/* Messages container */}
+      <div 
+        ref={messagesContainerRef}
+        className="flex-1 overflow-y-auto p-4 relative"
+        onScroll={handleScroll}
+      >
         {renderMessages()}
         {isTyping && (
           <div className="text-left text-gray-500 text-sm italic">
@@ -464,6 +502,19 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
           </div>
         )}
         <div ref={messagesEndRef} />
+
+        {/* New message notification */}
+        {hasNewMessage && (
+          <div 
+            className="absolute bottom-4 left-1/2 transform -translate-x-1/2 
+                     bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg
+                     flex items-center cursor-pointer"
+            onClick={() => scrollToBottom(true)}
+          >
+            <div className="mr-2">Có tin nhắn mới</div>
+            <div className="animate-bounce">↓</div>
+          </div>
+        )}
       </div>
 
       {/* Input area */}

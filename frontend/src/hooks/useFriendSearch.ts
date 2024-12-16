@@ -1,13 +1,8 @@
-// frontend/src/services/tempUserService.ts
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Friend, StatusChangeData } from '../types/friend';
-import socketService from './socket';
-import { api } from './api';
-
-export const getTempUserId = () => {
-  return 'temp-' + Math.random().toString(36).substr(2, 9);
-};
+import socketService from '../services/socket';
+import { api } from '../services/api';
 
 export const useFriendSearch = () => {
   const [friends, setFriends] = useState<Friend[]>([]);
@@ -58,4 +53,4 @@ export const useFriendSearch = () => {
     handleSearch,
     setFriends
   };
-};
+}; 

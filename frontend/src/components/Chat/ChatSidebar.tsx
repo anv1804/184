@@ -1,70 +1,26 @@
 // src/components/Chat/ChatSidebar.tsx
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Input, Avatar, List, Badge } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { useAuth } from '../../context/AuthContext';
-import axios from '../../config/axios';
-import socketService from '../../services/socketService';
-
-interface Friend {
-  _id: string;
-  name: string;
-  avatar?: string;
-  email: string;
-  isOnline: boolean;
-}
-
-interface StatusChangeData {
-  userId: string;
-  isOnline: boolean;
-}
+import { useFriendSearch } from '../../services/tempUserService';
+import type { Friend } from '../../types/friend';
 
 interface Props {
   onSelectFriend: (friend: Friend) => void;
 }
 
 const ChatSidebar: React.FC<Props> = ({ onSelectFriend }) => {
-  const [searchText, setSearchText] = useState('');
-  const [friends, setFriends] = useState<Friend[]>([]);
-  const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
-
-  useEffect(() => {
-    const fetchFriends = async () => {
-      try {
-        const response = await axios.get('/api/friends/list');
-        setFriends(response.data);
-      } catch (error) {
-        console.error('Error fetching friends:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFriends();
-
-    const socket = socketService.connect();
-    if (socket && user?._id) {
-      socket.emit('join_chat', user._id);
-
-      socket.on('user_status_change', ({ userId, isOnline }: StatusChangeData) => {
-        setFriends(prevFriends => 
-          prevFriends.map(friend => 
-            friend._id === userId ? { ...friend, isOnline } : friend
-          )
-        );
-      });
-
-      return () => {
-        socket.off('user_status_change');
-      };
-    }
-  }, [user?._id]);
+  const { 
+    friends, 
+    searchQuery, 
+    loading, 
+    handleSearch 
+  } = useFriendSearch();
 
   // Lọc bạn bè theo tên hoặc email
-  const filteredFriends = friends.filter(friend => 
-    friend.name.toLowerCase().includes(searchText.toLowerCase()) ||
-    friend.email.toLowerCase().includes(searchText.toLowerCase())
+  const filteredFriends: Friend[] = friends.filter((friend: Friend) => 
+    friend.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    friend.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -73,17 +29,17 @@ const ChatSidebar: React.FC<Props> = ({ onSelectFriend }) => {
         <Input
           placeholder="Tìm kiếm bạn bè"
           prefix={<SearchOutlined className="text-gray-400" />}
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
           className="rounded-lg"
         />
       </div>
 
-      <List
+      <List<Friend>
         className="flex-1 overflow-y-auto"
         loading={loading}
         dataSource={filteredFriends}
-        renderItem={(friend) => (
+        renderItem={(friend: Friend) => (
           <List.Item 
             className="cursor-pointer hover:bg-gray-50 p-4 border-b"
             onClick={() => onSelectFriend(friend)}
@@ -116,7 +72,7 @@ const ChatSidebar: React.FC<Props> = ({ onSelectFriend }) => {
           </List.Item>
         )}
         locale={{
-          emptyText: searchText ? 'Không tìm thấy bạn bè' : 'Chưa có bạn bè nào'
+          emptyText: searchQuery ? 'Không tìm thấy bạn bè' : 'Chưa có bạn bè nào'
         }}
       />
     </div>

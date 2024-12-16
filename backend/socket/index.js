@@ -1,66 +1,49 @@
 // backend/socket/index.js
 const socketIo = require('socket.io');
+const EVENTS = require('./events');
+const MessageHandler = require('./handlers/messageHandler');
+const RoomHandler = require('./handlers/roomHandler');
+const TypingHandler = require('./handlers/typingHandler');
 
-const setupSocket = (server) => {
-  const io = socketIo(server, {
-    cors: {
-      origin: "http://localhost:3000",
-      methods: ["GET", "POST"]
-    }
-  });
+class SocketServer {
+  constructor(io) {
+    this.io = io;
+    this.messageHandler = new MessageHandler(io);
+    this.roomHandler = new RoomHandler(io);
+    this.typingHandler = new TypingHandler(io);
+  }
 
-  const activeRooms = new Map(); // roomId -> Set of userIds
-  const userSockets = new Map(); // userId -> socketId
+  initialize() {
+    this.io.on(EVENTS.CONNECTION, (socket) => {
+      console.log('User connected:', socket.id);
 
-  io.on('connection', (socket) => {
-    const userId = socket.handshake.query.userId;
-    console.log('User connected:', userId);
-    userSockets.set(userId, socket.id);
+      // Message events
+      socket.on(EVENTS.MESSAGE.SEND, (data) => 
+        this.messageHandler.handleSendMessage(socket, data));
+      socket.on(EVENTS.MESSAGE.RECALL, (data) => 
+        this.messageHandler.handleRecallMessage(socket, data));
+      socket.on(EVENTS.MESSAGE.EDIT, (data) => 
+        this.messageHandler.handleEditMessage(socket, data));
 
-    // Handle room creation
-    socket.on('create_room', ({ roomId, targetUserId }) => {
-      if (!activeRooms.has(roomId)) {
-        activeRooms.set(roomId, new Set([userId, targetUserId]));
-      }
-      socket.join(roomId);
-      
-      // Notify target user if online
-      const targetSocketId = userSockets.get(targetUserId);
-      if (targetSocketId) {
-        io.to(targetSocketId).emit('room_created', {
-          roomId,
-          initiatorId: userId
-        });
-      }
-    });
+      // Room events
+      socket.on(EVENTS.ROOM.JOIN, (roomId) => 
+        this.roomHandler.handleJoinRoom(socket, roomId));
+      socket.on(EVENTS.ROOM.LEAVE, (roomId) => 
+        this.roomHandler.handleLeaveRoom(socket, roomId));
 
-    // Handle joining room
-    socket.on('join_room', (roomId) => {
-      if (activeRooms.has(roomId)) {
-        socket.join(roomId);
-        socket.emit('room_joined', roomId);
-      }
-    });
+      // Typing events
+      socket.on(EVENTS.TYPING.STATUS, (data) => 
+        this.typingHandler.handleTypingStatus(socket, data));
 
-    // Handle messages
-    socket.on('send_message', (data) => {
-      const { roomId, message, senderId, timestamp } = data;
-      io.to(roomId).emit('new_message', {
-        roomId,
-        message,
-        senderId,
-        timestamp
+      // Disconnect
+      socket.on(EVENTS.DISCONNECT, () => {
+        console.log('User disconnected:', socket.id);
       });
     });
+  }
+}
 
-    // Handle disconnect
-    socket.on('disconnect', () => {
-      userSockets.delete(userId);
-      console.log('User disconnected:', userId);
-    });
-  });
-
-  return io;
+module.exports = (io) => {
+  const socketServer = new SocketServer(io);
+  socketServer.initialize();
 };
-
-module.exports = setupSocket;
