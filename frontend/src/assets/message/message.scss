@@ -1,5 +1,51 @@
-.box-message{
-    #messages{
-
+// src/assets/message/message.scss
+.chat-container {
+    .chat-users-list {
+      .ant-list-item {
+        transition: all 0.3s ease;
+        
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        &.active {
+          background-color: rgba(1, 119, 251, 0.1);
+        }
+      }
     }
-}
+  
+    .message-bubble {
+      max-width: 70%;
+      padding: 10px 15px;
+      border-radius: 15px;
+      margin-bottom: 10px;
+      
+      &.sent {
+        background-color: #0177FB;
+        color: white;
+        margin-left: auto;
+      }
+      
+      &.received {
+        background-color: #F0F2F5;
+        color: black;
+      }
+    }
+  
+    .chat-input {
+      .ant-input {
+        border-radius: 20px;
+        padding: 10px 15px;
+      }
+      
+      .ant-btn {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }

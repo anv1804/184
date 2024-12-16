@@ -7,12 +7,13 @@ import { Button, Input } from 'antd';
 import IconSearch from '../icons/IconSearch';
 import IconMenuFlat from '../icons/IconMenuFlat';
 
-const LayoutClinet = () => {
+const LayoutClient = () => {
   return (
     <div className='wrapper flex justify-between overflow-y-scroll scrollbar-hide'>
       <SideBarLeft />
+
       <div className="content bg-white overflow-y-scroll scrollbar-hide w-full">
-        <div className="flex items-center justify-between p-4 border-b-[1px] sticky">
+        <div className="flex items-center justify-between p-4 border-b-[1px] sticky top-0 bg-white z-[1000]">
           <div className="flex items-center w-full border rounded-lg ">
             <Input
               placeholder="Search"
@@ -33,11 +34,13 @@ const LayoutClinet = () => {
             icon={<IconMenuFlat />}
           />
         </div>
+        <div className="main">
         <Outlet />
+        </div>
       </div>
       <SideBarRight />
     </div>
   )
 }
 
-export default LayoutClinet
+export default LayoutClient

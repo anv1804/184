@@ -59,10 +59,10 @@ const ClassroomTable: React.FC = () => {
       key: 'action',
       render: (_, record: ClassroomData) => (
         <Button
-          type="primary"
-          onClick={() => navigate(`/classroom/${record.id}`)}
+          type="default"
+          onClick={() => navigate(`/lop-hoc/${record.id}`)}
         >
-          Xem thêm
+          Xem lớp
         </Button>
       ),
       align: 'center',

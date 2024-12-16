@@ -2,93 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "./assets/CommonStyle.scss";
-* {
-  font-family: "Roboto Condensed", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
-}
-/* Schedule.css */
-.fc .fc-daygrid-event,
-.fc .fc-timegrid-event {
-  display: flex;
-  align-items: center;
-  border: none;
-  padding: 0;
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.fc .fc-daygrid-event-dot {
-  display: none;
-}
-
-.fc .fc-timegrid-event .fc-event-main {
-  padding: 0;
-  overflow: hidden;
-}
-
-.fc .fc-event-title {
-  font-size: 1rem;
-}
-
-.fc .fc-timegrid-slot {
-  border-color: #e0e0e0;
-}
-
-.fc .fc-toolbar-title {
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-.fc .fc-day-header {
-  color: #888;
-  font-size: 0.9rem;
-}
-
-.fc .fc-timegrid-axis {
-  color: #333;
-}
-
-.bg-white {
-  background-color: #ffffff;
-}
-
-.bg-blue-500 {
-  background-color: #3b82f6;
-}
-
-.bg-red-500 {
-  background-color: #ef4444;
-}
-
-.bg-teal-300 {
-  background-color: #81e6d9;
-}
-
-.SideBarLight {
-  position: sticky;
-  top: 0;
-  height: 100vh; /* Đảm bảo cột bên trái chiếm toàn bộ chiều cao màn hình */
-  background-color: red;
-}
-
-.SideBarRight {
-  position: sticky;
-  top: 0;
-  height: 100vh; /* Đảm bảo cột bên phải chiếm toàn bộ chiều cao màn hình */
-  background-color: blue;
-}
-
-.content {
-  overflow-y: auto; /* Cột giữa có thể cuộn */
-  height: 100vh;
-}
-/* Ẩn thanh cuộn trong các trình duyệt Webkit */
-.scrollable::-webkit-scrollbar {
-  display: none !important; /* Ẩn thanh cuộn */
-}
-
-/* Đảm bảo nội dung vẫn có thể cuộn */
-.scrollable {
-  -ms-overflow-style: none !important; /* Ẩn thanh cuộn trong IE */
-  scrollbar-width: none !important; /* Ẩn thanh cuộn trong Firefox */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }

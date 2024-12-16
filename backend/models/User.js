@@ -10,12 +10,19 @@ const userSchema = new mongoose.Schema({
   gender: String,
   description: String,
   identityCard: String,
-  socialInsurance: String, // Chỉ giáo viên
-  bankAccount: String, // Chỉ giáo viên
-  teachingSubject: { type: mongoose.Schema.Types.ObjectId, ref: "Subject" }, // Giáo viên
-  homeroomClass: { type: mongoose.Schema.Types.ObjectId, ref: "Class" }, // Giáo viên
-  studentClass: { type: mongoose.Schema.Types.ObjectId, ref: "Class" }, // Học sinh
+  socialInsurance: String,
+  bankAccount: String,
+  teachingSubject: { type: mongoose.Schema.Types.ObjectId, ref: "Subject" },
+  homeroomClass: String,
+  studentClass: { type: mongoose.Schema.Types.ObjectId, ref: "Class" },
   academicYear: String,
+  isOnline: { type: Boolean, default: false },
+  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  friendRequests: [{ 
+    from: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    status: { type: String, enum: ["pending", "accepted", "rejected"], default: "pending" },
+    createdAt: { type: Date, default: Date.now }
+  }]
 });
 
 module.exports = mongoose.model("User", userSchema);

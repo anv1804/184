@@ -18,20 +18,7 @@ const ClassroomOverview: React.FC = () => {
             ) : classData.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {classData.map((classItem) => (
-                        // <div key={classItem.id} className="p-4 bg-white shadow-md rounded-lg">
-                        //   <h3 className="font-semibold mb-2">{classItem.className}</h3>
-                        //   <p><strong>Sĩ số:</strong> {classItem.studentCount}</p>
-                        //   <p><strong>GV Chủ nhiệm:</strong> {classItem.homeroomTeacher}</p>
-                        //   <p><strong>Môn học:</strong> {classItem.subject}</p>
-                        //   <p><strong>Mô tả:</strong> {classItem.description}</p>
-                        //   <Button
-                        //     type="link"
-                        //     onClick={() => navigate(`/classroom/${classItem.id}`)}
-                        //   >
-                        //     Xem chi tiết
-                        //   </Button>
-                        // </div>
-                        <Link to={`/`} className="card bg-base-100 w-full shadow-lg group hover:shadow-xl border-[1px] hover:border-blue-400">
+                        <Link to={`/lop-hoc/${classItem.id}`} className="card bg-base-100 w-full shadow-lg group hover:shadow-xl border-[1px] hover:border-blue-400">
                             <figure className='relative overflow-hidden group-[avn]'>
                                 <img className='group-hover:scale-110 duration-200'
                                     src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
