@@ -10,15 +10,15 @@ interface Props {
 }
 
 const ChatSidebar: React.FC<Props> = ({ onSelectFriend }) => {
-  const { 
-    friends, 
-    searchQuery, 
-    loading, 
-    handleSearch 
+  const {
+    friends,
+    searchQuery,
+    loading,
+    handleSearch
   } = useFriendSearch();
 
   // Lọc bạn bè theo tên hoặc email
-  const filteredFriends: Friend[] = friends.filter((friend: Friend) => 
+  const filteredFriends: Friend[] = friends.filter((friend: Friend) =>
     friend.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     friend.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -40,20 +40,21 @@ const ChatSidebar: React.FC<Props> = ({ onSelectFriend }) => {
         loading={loading}
         dataSource={filteredFriends}
         renderItem={(friend: Friend) => (
-          <List.Item 
-            className="cursor-pointer hover:bg-gray-50 p-4 border-b"
+          <List.Item
+            className="cursor-pointer hover:bg-gray-50 p-4"
             onClick={() => onSelectFriend(friend)}
           >
             <List.Item.Meta
+              className='px-4 py-2'
               avatar={
-                <Badge 
-                  dot 
+                <Badge
+                  dot
                   status={friend.isOnline ? "success" : "default"}
                   offset={[-6, 28]}
                 >
-                  <Avatar 
-                    src={friend.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(friend.name)}`} 
-                    className="w-10 h-10"
+                  <Avatar
+                    src={friend.avatar || `https://api.dicebear.com/6.x/adventurer/svg?seed=${encodeURIComponent(friend.name)}`}
+                    className=""
                   />
                 </Badge>
               }
@@ -61,7 +62,7 @@ const ChatSidebar: React.FC<Props> = ({ onSelectFriend }) => {
                 <div className="flex items-center justify-between">
                   <span className="font-medium">{friend.name}</span>
                   <span className="text-xs text-gray-500">
-                    {friend.isOnline ? 'Đang hoạt động' : 'Offline'}
+                    {friend.isOnline ? 'Online' : 'Offline'}
                   </span>
                 </div>
               }

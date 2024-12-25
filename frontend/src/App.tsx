@@ -1,19 +1,21 @@
-import './App.css';
-import { BrowserRouter } from 'react-router-dom';
+import React from 'react';
+import AppRouter from './routers/Router';
+import { BrowserRouter, Router } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ChatProvider } from './context/ChatContext';
-import Router from './routers/Router';
 
-function App() {
-  return (
-    <BrowserRouter>
+// Import other components/pages as needed
+
+const App = () => {
+    return (
+      <BrowserRouter>
       <AuthProvider>
         <ChatProvider>
-          <Router />
+          <AppRouter />
         </ChatProvider>
       </AuthProvider>
     </BrowserRouter>
-  );
-}
+    );
+};
 
 export default App;

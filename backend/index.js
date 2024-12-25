@@ -10,6 +10,7 @@ const { authenticateToken } = require('./middleware/authMiddleware');
 dotenv.config(); // Load environment variables
 const setupSocket = require('./socket');
 const app = express();
+const schedule = require('node-schedule');
 
 // Middleware
 app.use(cors());
@@ -186,6 +187,17 @@ app.get("/", (req, res) => {
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Something went wrong!" });
+});
+
+// Scheduled job to update user statuses
+schedule.scheduleJob('*/5 * * * *', async () => { // Every 5 minutes
+  const now = new Date();
+  const offlineThreshold = 24 * 60 * 60 * 1000; // 24 hours
+
+  await User.updateMany(
+    { lastActive: { $lt: new Date(now - offlineThreshold) } },
+    { isOnline: false }
+  );
 });
 
 // Start the server

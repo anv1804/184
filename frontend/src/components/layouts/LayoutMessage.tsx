@@ -134,10 +134,7 @@ const LayoutMessage = () => {
                     </div>
                 </div>
             </div>
-
         </div>
-
-
     )
 }
 

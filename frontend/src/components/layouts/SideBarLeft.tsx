@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Menu, Avatar, Button, Input, Upload } from "antd";
 import "tailwindcss/tailwind.css";
 import IconCalendar from "../icons/IconCalendar";
@@ -13,6 +13,7 @@ import { useSidebar } from "../../helpers/sidebarHelper";
 import IconFlash from "../icons/IconFlash";
 import IconEducation from "../icons/IconEducation";
 import IconChat from "../icons/IconChat";
+import { useAuth } from '../../context/AuthContext';
 
 const { Sider } = Layout;
 
@@ -20,6 +21,7 @@ const SideBarLeft = () => {
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => setCollapsed(!collapsed);
   const { isSidebarVisible, toggleSidebar, closeSidebar } = useSidebar();
+  const { user, updateUserStatus } = useAuth();
   const props = {
     name: "file",
     action: "/upload", // URL xử lý upload file
@@ -34,6 +36,24 @@ const SideBarLeft = () => {
       }
     },
   };
+
+  useEffect(() => {
+    const handleOnline = () => {
+      updateUserStatus(true);
+    };
+
+    const handleOffline = () => {
+      updateUserStatus(false);
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, [updateUserStatus]);
 
   return (
     <div className="w-full md:max-w-[250px] max-w-[768px] overflow-auto absolute md:sticky">
@@ -112,7 +132,7 @@ const SideBarLeft = () => {
                 </Link>
               </Menu.Item>
               <Menu.Item key="4" icon={<IconChat />}>
-                <Link to={`/`}>
+                <Link to={`/tro-chuyen`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Trò Chuyện</span>}
                 </Link>
               </Menu.Item>
@@ -130,6 +150,9 @@ const SideBarLeft = () => {
                 <Link to={`/vi`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Ví</span>}
                 </Link>
+              </Menu.Item>
+              <Menu.Item key="profile">
+                <Link to="/profile">Trang Cá Nhân</Link>
               </Menu.Item>
             </Menu>
 

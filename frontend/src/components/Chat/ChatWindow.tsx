@@ -145,7 +145,7 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewMessage(e.target.value);
-    
+
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
@@ -247,8 +247,8 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
         conversationId: conversation._id,
         messageId
       });
-      setMessages(prev => 
-        prev.map(msg => 
+      setMessages(prev =>
+        prev.map(msg =>
           msg._id === messageId ? { ...msg, isRecalled: true } : msg
         )
       );
@@ -289,8 +289,8 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
         sender: updatedMessage.sender
       });
 
-      setMessages(prev => 
-        prev.map(msg => 
+      setMessages(prev =>
+        prev.map(msg =>
           msg._id === messageId ? updatedMessage : msg
         )
       );
@@ -302,18 +302,18 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
   useEffect(() => {
     if (socket && user?._id) {
       socket.on('message_recalled', ({ messageId }: RecallMessageData) => {
-        setMessages(prev => 
-          prev.map(msg => 
+        setMessages(prev =>
+          prev.map(msg =>
             msg._id === messageId ? { ...msg, isRecalled: true } : msg
           )
         );
       });
 
       socket.on('message_edited', ({ messageId, newContent, sender }: EditMessageData & { sender: any }) => {
-        setMessages(prev => 
-          prev.map(msg => 
-            msg._id === messageId ? { 
-              ...msg, 
+        setMessages(prev =>
+          prev.map(msg =>
+            msg._id === messageId ? {
+              ...msg,
               content: newContent,
               sender: sender || msg.sender
             } : msg
@@ -339,7 +339,7 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
         const messageTime = new Date(message.timestamp);
         const currentHour = messageTime.getHours();
         const showTime = lastMessageHour !== currentHour.toString();
-        
+
         if (showTime) {
           lastMessageHour = currentHour.toString();
         }
@@ -352,16 +352,14 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
               </div>
             )}
             <div
-              className={`mb-4 ${
-                message.sender._id === user?._id ? 'text-right' : 'text-left'
-              }`}
+              className={`mb-4 ${message.sender._id === user?._id ? 'text-right' : 'text-left'
+                }`}
             >
               <div
-                className={`inline-block p-3 rounded-lg ${
-                  message.sender._id === user?._id
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100'
-                }`}
+                className={`inline-block p-3 rounded-lg ${message.sender._id === user?._id
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-100'
+                  }`}
               >
                 {message.isRecalled ? (
                   <span className="italic text-gray-500">Tin nhắn đã được thu hồi</span>
@@ -384,11 +382,11 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
   const handleFileUpload = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    
+
     try {
       const response = await axios.post(`/api/chat/upload`, formData);
       const fileUrl = response.data.url;
-      
+
       // Gửi tin nhắn với file
       await sendMessage('', {
         type: file.type.startsWith('image/') ? 'image' : 'file',
@@ -475,7 +473,7 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
   return (
     <div className="flex flex-col h-full flex-1">
       {/* Chat header */}
-      <div className="p-4 border-b">
+      {/* <div className="p-4 border-b">
         <div className="flex items-center">
           <Avatar 
             src={otherParticipant?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(otherParticipant?.name || 'User')}`} 
@@ -487,10 +485,110 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
             </div>
           </div>
         </div>
+      </div> */}
+      <div className="flex sm:items-center justify-between py-3 border-b-2 border-gray-200 p:2 sm:p-4">
+        <div className="relative flex items-center space-x-4">
+          <div className="relative">
+            {/* <div className="flex items-center">
+              <Avatar
+                src={otherParticipant?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(otherParticipant?.name || 'User')}`}
+              />
+              <div className="ml-3">
+                <div className="font-medium">{otherParticipant?.name || 'User'}</div>
+                <div className="text-sm text-gray-500">
+                  {otherParticipant?.isOnline ? 'Đang hoạt động' : 'Offline'}
+                </div>
+              </div>
+            </div> */}
+            {otherParticipant?.isOnline ? (
+              <div className="absolute text-green-500 right-0 bottom-0 z-10">
+                <svg width={15} height={15}>
+                  <circle cx={6} cy={6} r={6} fill="currentColor" />
+                </svg>
+              </div>
+            ) : (
+              <div className="absolute text-gray-500 right-0 bottom-0 z-10">
+                <svg width={15} height={15}>
+                  <circle cx={6} cy={6} r={6} fill="currentColor" />
+                </svg>
+              </div>
+            )}
+
+            <Avatar
+              className='w-12 h-12'
+              src={otherParticipant?.avatar || `https://api.dicebear.com/6.x/adventurer/svg?seed=${encodeURIComponent(otherParticipant.name)}`}
+            />
+          </div>
+          <div className="flex flex-col leading-tight">
+            <div className="text-xl mt-1 flex items-center">
+              <span className="text-gray-700 mr-3">{otherParticipant?.name || 'User'}</span>
+            </div>
+            <span className="text-sm text-gray-400">Bạn thân ơi</span>
+          </div>
+        </div>
+        <div className="flex items-center space-x-2">
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Messages container */}
-      <div 
+      <div
         ref={messagesContainerRef}
         className="flex-1 overflow-y-auto p-4 relative"
         onScroll={handleScroll}
@@ -505,7 +603,7 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
 
         {/* New message notification */}
         {hasNewMessage && (
-          <div 
+          <div
             className="absolute bottom-4 left-1/2 transform -translate-x-1/2 
                      bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg
                      flex items-center cursor-pointer"
@@ -526,7 +624,7 @@ const ChatWindow: React.FC<Props> = ({ conversation }) => {
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
       />
-    </div>
+    </div >
   );
 };
 

@@ -19,6 +19,9 @@ const authenticateToken = async (req, res, next) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
+    user.lastActive = new Date();
+    await user.save();
+
     req.user = user;
     next();
   } catch (error) {

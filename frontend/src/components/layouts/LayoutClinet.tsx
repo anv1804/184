@@ -1,13 +1,34 @@
 import React from 'react'
 import SideBarLeft from './SideBarLeft'
 import SideBarRight from './SideBarRight'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Input } from 'antd';
+import { Button, Input, Breadcrumb } from 'antd';
 import IconSearch from '../icons/IconSearch';
 import IconMenuFlat from '../icons/IconMenuFlat';
 
 const LayoutClient = () => {
+  const location = useLocation();
+
+  const getBreadcrumb = () => {
+    switch (location.pathname) {
+      case '/profile':
+        return [
+          { title: 'Trang Chủ', path: '/' },
+          { title: 'Profile', path: '/profile' },
+        ];
+      case '/classroom':
+        return [
+          { title: 'Trang Chủ', path: '/' },
+          { title: 'Lớp Học', path: '/classroom' },
+        ];
+      default:
+        return [{ title: 'Trang Chủ', path: '/' }];
+    }
+  };
+
+  const breadcrumbItems = getBreadcrumb();
+
   return (
     <div className='wrapper flex justify-between overflow-y-scroll scrollbar-hide'>
       <SideBarLeft />
@@ -34,8 +55,17 @@ const LayoutClient = () => {
             icon={<IconMenuFlat />}
           />
         </div>
+
+        <Breadcrumb className="p-4">
+          {breadcrumbItems.map((item, index) => (
+            <Breadcrumb.Item key={index}>
+              <a href={item.path}>{item.title}</a>
+            </Breadcrumb.Item>
+          ))}
+        </Breadcrumb>
+
         <div className="main">
-        <Outlet />
+          <Outlet />
         </div>
       </div>
       <SideBarRight />

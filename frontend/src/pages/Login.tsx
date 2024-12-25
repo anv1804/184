@@ -10,7 +10,7 @@ const Login = () => {
     try {
       await login(values.email, values.password);
       message.success('Đăng nhập thành công!');
-      navigate('/chat');
+      navigate('/');
     } catch (error) {
       message.error('Đăng nhập thất bại!');
     }

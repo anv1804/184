@@ -1,14 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
-
-interface User {
-  _id: string;
-  name: string;
-  email: string;
-  role: string;
-  avatar?: string;
-  isOnline?: boolean;
-}
+import { User } from '../types/interfaces'; // Import interface
 
 interface AuthContextType {
   user: User | null;
@@ -17,6 +9,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   updateOnlineStatus: (status: boolean) => void;
   isLoading: boolean;
+  updateUserStatus: (isOnline: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -123,6 +116,25 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  const updateUserStatus = (isOnline: boolean) => {
+    setUser((prevUser) => {
+      if (!prevUser) {
+        return {
+          _id: '', // Provide a default value or handle accordingly
+          name: '',
+          email: '',
+          role: '',
+          avatar: '',
+          isOnline,
+        } as User; // Cast to User type
+      }
+      return {
+        ...prevUser,
+        isOnline,
+      };
+    });
+  };
+
   // Không render children khi đang loading
   if (isLoading) {
     return <div>Loading...</div>; // Hoặc component loading của bạn
@@ -134,7 +146,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     logout: handleLogout,
     isAuthenticated,
     updateOnlineStatus,
-    isLoading
+    isLoading,
+    updateUserStatus,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

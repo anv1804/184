@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import { Classroom } from "../../interfaces/Class";
 import { Student } from "../../interfaces/Student";
 import { Avatar, Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
 import IconGender2 from "../../components/icons/IconGender2";
 import IconGender1 from "../../components/icons/IconGender1";
 import IconSearch from "../../components/icons/IconSearch";
