@@ -1,13 +1,14 @@
-import React from 'react'
-import SideBarLeft from './SideBarLeft'
-import SideBarRight from './SideBarRight'
+import React, { useState } from 'react';
+import SideBarRight from './elements/client/SideBarRight'
 import { Outlet, useLocation } from 'react-router-dom'
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Input, Breadcrumb } from 'antd';
 import IconSearch from '../icons/IconSearch';
 import IconMenuFlat from '../icons/IconMenuFlat';
+import SideBarLeft from './elements/client/SideBarLeft';
 
 const LayoutClient = () => {
+  const [isSidebarLeftVisible, setSidebarLeftVisible] = useState(true);
   const location = useLocation();
 
   const getBreadcrumb = () => {
@@ -30,10 +31,9 @@ const LayoutClient = () => {
   const breadcrumbItems = getBreadcrumb();
 
   return (
-    <div className='wrapper flex justify-between overflow-y-scroll scrollbar-hide'>
-      <SideBarLeft />
-
-      <div className="content bg-white overflow-y-scroll scrollbar-hide w-full">
+    <div className='wrapper '>
+      {isSidebarLeftVisible && <SideBarLeft />}
+      <div className={`content bg-white overflow-y-scroll scrollbar-hide flex-1 h-[100vh]`}>
         <div className="flex items-center justify-between p-4 border-b-[1px] sticky top-0 bg-white z-[1000]">
           <div className="flex items-center w-full border rounded-lg ">
             <Input
@@ -53,6 +53,7 @@ const LayoutClient = () => {
           <Button
             className="ml-4 md:hidden block z-50"
             icon={<IconMenuFlat />}
+            onClick={() => setSidebarLeftVisible(!isSidebarLeftVisible)}
           />
         </div>
 

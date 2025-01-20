@@ -9,13 +9,11 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, roles }) => {
-  const { isAuthenticated, user, isLoading } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const location = useLocation();
 
   // Show loading while checking auth
-  if (isLoading) {
-    return <Loading />;
-  }
+
 
   // Redirect to login if not authenticated
   if (!isAuthenticated) {

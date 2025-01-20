@@ -43,8 +43,12 @@ const ScheduleForm = () => {
     setSelectedSubjects(value);
   };
 
-  const handleClassSectionChange = (checkedValues: any) => {
-    setClassSections(checkedValues);
+  const handleClassSectionChange = (section: string) => {
+    if (classSections.includes(section)) {
+      setClassSections(classSections.filter(s => s !== section)); // Uncheck
+    } else {
+      setClassSections([...classSections, section]); // Check
+    }
   };
 
   const handleSelectAllClassSections = () => {
@@ -246,11 +250,17 @@ const ScheduleForm = () => {
         <Button onClick={handleSelectAllClassSections} className="mb-2">
           {classSections.length === 14 ? 'Deselect All' : 'Select All'}
         </Button>
-        <Checkbox.Group onChange={handleClassSectionChange} value={classSections} className="ml-2">
+        <div className="class-section-buttons flex flex-wrap gap-2">
           {Array.from({ length: 14 }, (_, i) => (
-            <Checkbox key={i} value={`A${i + 1}`}>A{i + 1}</Checkbox>
+            <Button 
+              key={i} 
+              className={`class-section-button border-2 ${classSections.includes(`A${i + 1}`) ? 'border-green-500' : 'border-gray-500'} rounded p-2`} 
+              onClick={() => handleClassSectionChange(`A${i + 1}`)}
+            >
+              A{i + 1}
+            </Button>
           ))}
-        </Checkbox.Group>
+        </div>
       </Form.Item>
 
       <Form.Item label="Subjects">
@@ -320,4 +330,4 @@ const ScheduleForm = () => {
   );
 };
 
-export default ScheduleForm; 
+export default ScheduleForm;

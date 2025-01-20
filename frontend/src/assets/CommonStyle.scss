@@ -5,3 +5,19 @@
 @import "./clock/clock.scss";
 @import "./spotify/spotify.scss";
 @import "./message/message.scss";
+@import "./variable.scss";
+.wrapper {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  .sidebarleft {
+    @include md {
+      display: none;
+    }
+  }
+  .sidebarright {
+    @include lg{
+        display: none;
+    }
+  }
+}

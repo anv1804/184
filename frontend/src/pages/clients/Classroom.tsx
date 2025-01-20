@@ -6,7 +6,7 @@ import ClassroomOverview from '../../components/ClassroomOverview';
 const Classroom: React.FC = () => {
   return (
     <ClassroomProvider>
-      <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="p-6 bg-gray-50">
         <h2 className="text-2xl font-semibold mb-4">Classroom Management</h2>
         <ClassroomTable />
         <div className="mt-4">

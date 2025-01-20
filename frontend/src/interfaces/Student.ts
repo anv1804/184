@@ -3,5 +3,8 @@ export interface Student {
   name: string;
   avatar: string;
   gender: string;
-  description?: string
+  description?: string;
+  email: string;
+  role: string;
+  teams?: string[];
 }

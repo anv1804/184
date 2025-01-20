@@ -8,10 +8,13 @@ export interface User {
 }
 
 export interface Subject {
+  description?: String;
   _id: string;
   name: string;
+  status: Boolean;
   // Add other properties if needed
 }
+
 
 export interface Grade {
   student: User;
@@ -24,4 +27,4 @@ export interface Grade {
     coefficient3: number[];
   };
   average?: number;
-} 
+}

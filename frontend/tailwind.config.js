@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         "message-layout": "350px 1fr 300px",
-        "cline-layout": "250px 1fr 250px",
+        "cline-layout": "240px 1fr 240px",
       },
     },
     themes: [
@@ -44,6 +44,13 @@ module.exports = {
       "nord",
       "sunset",
     ],
+    screens: {
+      xs: "480px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+    },
   },
-  plugins: [require("daisyui"),require('tailwind-scrollbar-hide'),],
+  plugins: [require("daisyui"), require("tailwind-scrollbar-hide")],
 };

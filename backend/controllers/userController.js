@@ -35,4 +35,15 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-
+// Get all students
+exports.getAllStudents = async (req, res) => {
+  console.log("Request to get all students:", req.params);
+  console.log("Full request object:", req);
+  try {
+    const students = await User.find({ role: "student" });
+    res.status(200).json(students);
+  } catch (error) {
+    console.error("Error fetching students:", error);
+    res.status(500).json({ message: "Lỗi khi tìm người dùng", error: error.message });
+  }
+};
