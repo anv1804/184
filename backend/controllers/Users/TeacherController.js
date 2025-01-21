@@ -1,4 +1,4 @@
-const Class = require("../../models/Class");
+const Class = require("../../models/Class/ClassModel");
 const Subject = require("../../models/Subjects/SubjectModel");
 const Teacher = require("../../models/Users/TeacherModel");
 
@@ -16,16 +16,20 @@ exports.getAllTeachers = async (req, res) => {
 exports.getTeacherById = async (req, res) => {
   try {
     const { id } = req.params;
-    const foundTeacher = await Teacher.findById(id).populate('homeroomClass').populate;
+    const foundTeacher = await Teacher.findById(id)
+      .populate("homeroomClass")
+      .populate("teachingSubject");
     if (!foundTeacher) {
-      return res.status(404).json({ message: "Không tồn tại người dùng" });
+      return res
+        .status(404)
+        .json({ message: `Không tồn tại giáo viên có id là : ${id}` });
     }
 
     res.status(200).json(foundTeacher);
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Lỗi khi tìm người dùng", error: error.message });
+      .json({ message: "Lỗi khi tìm giáo viên", error: error.message });
   }
 };
 

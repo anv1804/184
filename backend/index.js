@@ -144,7 +144,7 @@ connectDB();
 
 // Routes
 const userRoutes = require("./routes/userRoutes");
-const classRoutes = require("./routes/classRoutes");
+const classRoutes = require("./routes/Class/classRoutes");
 const gradeRoutes = require("./routes/gradeRoutes");
 const authRoutes = require("./routes/authRoutes");
 // const teacherRoutes = require("./routes/teacherRoutes");
@@ -152,8 +152,9 @@ const chatRoutes = require("./routes/chatRoutes");
 const friendRoutes = require("./routes/friendRoutes");
 const eventRoutes = require("./routes/Events/eventRouter");
 const teacherRoutes = require("./routes/Users/teacherRoutes.js");
-const subjectRoutes = require("./routes/Subjects/subjectRoutes.js");
+const studentRoutes = require("./routes/Users/studentRoutes.js");
 
+const subjectRoutes = require("./routes/Subjects/subjectRoutes.js");
 
 // Routes
 app.use("/api/users", userRoutes);
@@ -165,6 +166,7 @@ app.use("/api/chat", chatRoutes);
 app.use("/api/friends", friendRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/teachers", teacherRoutes);
+app.use("/api/students", studentRoutes);
 app.use("/api/subjects", subjectRoutes);
 
 app.post("/auth/status", authenticateToken, async (req, res) => {

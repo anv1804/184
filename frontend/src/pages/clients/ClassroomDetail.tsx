@@ -80,15 +80,15 @@ const ClassroomDetail: React.FC = () => {
     }
     setSortConfig({ key, direction });
 
-    const sorted = [...filteredStudents].sort((a, b) => {
-      if (key === "name" || key === "gender") {
-        return direction === "asc"
-          ? a[key].localeCompare(b[key])
-          : b[key].localeCompare(a[key]);
-      }
-      return 0;
-    });
-    setFilteredStudents(sorted);
+    // const sorted = [...filteredStudents].sort((a, b) => {
+    //   if (key === "name" || key === "gender") {
+    //     return direction === "asc"
+    //       ? a[key].localeCompare(b[key])
+    //       : b[key].localeCompare(a[key]);
+    //   }
+    //   return 0;
+    // });
+    // setFilteredStudents(sorted);
   };
 
   const handleSubmit = () => {

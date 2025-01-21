@@ -14,6 +14,12 @@ import IconMenuFlat from "../../../icons/IconMenuFlat";
 import IconFlash from "../../../icons/IconFlash";
 import IconEducation from "../../../icons/IconEducation";
 import IconChat from "../../../icons/IconChat";
+import IconChart from "../../../icons/iconChart";
+import IconHappy from "../../../icons/iconHappy";
+import IconUser from "../../../icons/IconUser";
+import IconBookMark from "../../../icons/IconBookMark";
+import IconClass from "../../../icons/iconClass";
+import IconBook from "../../../icons/IconBook";
 
 
 
@@ -119,32 +125,32 @@ const AdminSideBarLeft = () => {
               className="w-full"
               inlineCollapsed={collapsed}
             >
-              <Menu.Item key="1" icon={<IconFlash />}>
+              <Menu.Item key="1" icon={<IconChart />}>
                 <Link to={`/admin`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Thống Kê</span>}
                 </Link>
               </Menu.Item>
-              <Menu.Item key="2" icon={<IconCalendar />}>
+              <Menu.Item key="2" icon={<IconBookMark />}>
                 <Link to={`/admin/su-kien`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Sự Kiện</span>}
                 </Link>
               </Menu.Item>
-              <Menu.Item key="3" icon={<IconEducation />}>
+              <Menu.Item key="3" icon={<IconClass />}>
                 <Link to={`/admin/lop-hoc`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Lớp Học</span>}
                 </Link>
               </Menu.Item>
-              <Menu.Item key="4" icon={<IconChat />}>
+              <Menu.Item key="4" icon={<IconHappy />}>
                 <Link to={`/admin/hoc-sinh`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Học Sinh</span>}
                 </Link>
               </Menu.Item>
-              <Menu.Item key="5" icon={<IconCompany />}>
+              <Menu.Item key="5" icon={<IconUser />}>
                 <Link to={`/admin/giao-vien`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Giáo Viên</span>}
                 </Link>
               </Menu.Item>
-              <Menu.Item key="6" icon={<IconFolder />}>
+              <Menu.Item key="6" icon={<IconBook />}>
                 <Link to={`/admin/mon-hoc`}>
                   {collapsed ? <span className="ml-0"></span> : <span className="ml-2">Môn Học</span>}
                 </Link>

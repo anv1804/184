@@ -119,8 +119,8 @@ const AdminSubjectManager = () => {
         <section className="py-10 bg-gray-100 sm:py-16 lg:py-24">
             <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div className="max-w-2xl mx-auto text-center">
-                    <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">
-                        Subject Management
+                    <h2 className="text-3xl font-bold leading-tight capitalize text-black sm:text-4xl lg:text-5xl">
+                        Quản lý môn học
                     </h2>
                     <p className="max-w-lg mx-auto mt-4 text-base leading-relaxed text-gray-600">
                         Manage your subjects efficiently with easy status updates.
@@ -150,7 +150,28 @@ const AdminSubjectManager = () => {
                     </div>
 
                     {/* Nút thêm môn học */}
-                    <Button type="primary" onClick={showAddModal}>Add Subject</Button>
+                    <>
+                        <button onClick={showAddModal} className="flex capitalize items-center px-4 py-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-500 text-white font-semibold text-xs rounded-full shadow-2xl hover:from-blue-600 hover:via-blue-700 hover:to-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-70 active:bg-blue-800 active:shadow-inner transform hover:scale-110 transition duration-500 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed ml-4">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                fill="none"
+                                className="w-4 h-4 mr-2 text-white animate-pulse"
+                            >
+                                <path
+                                    d="M12 4v16m8-8H4"
+                                    strokeWidth={2}
+                                    strokeLinejoin="round"
+                                    strokeLinecap="round"
+                                />
+                            </svg>
+                            Thêm Mới
+                        </button>
+                    </>
+
+
+                    {/* <Button type="text" className="btn btn-info btn-sm text-white hover" onClick={showAddModal}><span className="group-hover:text-blue-500">Thêm Môn Học</span></Button> */}
                 </div>
 
                 {/* Danh sách môn học */}

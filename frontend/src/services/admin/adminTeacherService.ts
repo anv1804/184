@@ -9,6 +9,14 @@ export const getAllTeachers = async () => {
     console.log(error);
   }
 };
+export const getTeacherById = async (id: any) => {
+  try {
+    const response = await instance.get(`/api/teachers/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getAllClassTeacherTeaching = async () => {
   try {

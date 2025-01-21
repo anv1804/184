@@ -3,34 +3,15 @@ import { Button, Checkbox, Form, Input, Select, Upload, message, Row, Col, Typog
 import { UploadOutlined } from "@ant-design/icons";
 import bcrypt from 'bcryptjs';
 import { Link } from "react-router-dom";
+import EmailInput from "../../../components/element/Inputs/EmailInput";
+import TextInput from "../../../components/element/Inputs/TextInput";
+import PhoneInput from "../../../components/element/Inputs/PhoneInput";
+import PassInput from "../../../components/element/Inputs/PassInput";
+import GenderSelect from "../../../components/element/Inputs/GenderSelect";
+import TextArea from "../../../components/element/Inputs/TextArea";
 
 const { Option } = Select;
 const { Title } = Typography;
-
-const formItemLayout = {
-    labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-    },
-    wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-    },
-};
-
-const tailFormItemLayout = {
-    wrapperCol: {
-        xs: {
-            span: 24,
-            offset: 0,
-        },
-        sm: {
-            span: 16,
-            offset: 8,
-        },
-    },
-};
-
 const AdminTeacherCreate: React.FC = () => {
     const [form] = Form.useForm();
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -113,52 +94,46 @@ const AdminTeacherCreate: React.FC = () => {
                 </Title>
 
                 <Form
-                    {...formItemLayout}
+                    // {...formItemLayout}
                     form={form}
                     name="register"
                     onFinish={onFinish}
-                    style={{ maxWidth: 800 }}
                     scrollToFirstError
+                    className="w-full"
                 >
                     <Row gutter={24}>
                         <Col span={12}>
                             <Form.Item
                                 name="name"
-                                label="Fullname"
-                                tooltip="What do you want others to call you?"
                                 rules={[{ required: true, message: "Please input your full name!", whitespace: true }]}
                             >
-                                <Input />
+                                <TextInput />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
                             <Form.Item
                                 name="email"
-                                label="E-mail"
                                 rules={[{ type: "email", message: "The input is not valid E-mail!" }, { required: true, message: "Please input your E-mail!" }]}
                             >
-                                <Input />
+                                <EmailInput />
                             </Form.Item>
                         </Col>
                     </Row>
 
                     <Row gutter={24}>
+
                         <Col span={12}>
                             <Form.Item
                                 name="password"
-                                label="Password"
                                 rules={[{ required: true, message: "Please input your password!" }]}
-                                hasFeedback
                             >
-                                <Input.Password />
+                                <PassInput />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
                             <Form.Item
                                 name="confirm"
-                                label="Confirm Password"
                                 dependencies={["password"]}
-                                hasFeedback
                                 rules={[
                                     { required: true, message: "Please confirm your password!" },
                                     ({ getFieldValue }) => ({
@@ -171,7 +146,7 @@ const AdminTeacherCreate: React.FC = () => {
                                     }),
                                 ]}
                             >
-                                <Input.Password />
+                                <PassInput />
                             </Form.Item>
                         </Col>
                     </Row>
@@ -180,29 +155,23 @@ const AdminTeacherCreate: React.FC = () => {
                         <Col span={12}>
                             <Form.Item
                                 name="phone"
-                                label="Phone Number"
                                 rules={[{ required: true, message: "Please input your phone number!" }]}
                             >
-                                <Input style={{ width: "100%" }} />
+                                <PhoneInput />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
                             <Form.Item
                                 name="gender"
-                                label="Gender"
                                 rules={[{ required: true, message: "Please select gender!" }]}
                             >
-                                <Select placeholder="Select your gender">
-                                    <Option value="Male">Male</Option>
-                                    <Option value="Female">Female</Option>
-                                </Select>
+                                <GenderSelect />
                             </Form.Item>
                         </Col>
                     </Row>
 
                     <Form.Item
                         name="avatar"
-                        label="Avatar"
                         rules={[{ required: false, message: "Please upload your avatar!" }]}
                     >
                         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
@@ -211,6 +180,7 @@ const AdminTeacherCreate: React.FC = () => {
                                 listType="picture"
                                 maxCount={1}
                                 onChange={handleAvatarChange}
+                                className="grid w-full"
                                 beforeUpload={(file) => {
                                     const isJpgOrPng =
                                         file.type === "image/jpeg" || file.type === "image/png";
@@ -223,20 +193,11 @@ const AdminTeacherCreate: React.FC = () => {
                                     }
                                     return isJpgOrPng && isLt2M;
                                 }}
-                                style={{
-                                    width: 120,
-                                    height: 120,
-                                    border: "1px dashed #d9d9d9",
-                                    borderRadius: "8px",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    cursor: "pointer",
-                                }}
+
                             >
                                 <div>
                                     <UploadOutlined style={{ fontSize: 24 }} />
-                                    <p style={{ margin: 0, fontSize: 12 }}>Click or Drag</p>
+                                    <p className="text-sm ">Ảnh Đại Diện</p>
                                 </div>
                             </Upload.Dragger>
 
@@ -262,27 +223,31 @@ const AdminTeacherCreate: React.FC = () => {
 
                     <Form.Item
                         name="description"
-                        label="Description"
                         rules={[{ required: false, message: "Please input description" }]}
                     >
-                        <Input.TextArea showCount maxLength={3000} />
+                        <TextArea />
                     </Form.Item>
 
                     <Form.Item
                         name="agreement"
                         valuePropName="checked"
                         rules={[{ validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error("Should accept agreement")) }]}
-                        {...tailFormItemLayout}
                     >
                         <Checkbox>
-                            I have read the <a href="">agreement</a>
+                            <span className="text-sm ">I have read the </span><Link to="" className="font-semibold underline text-blue-600">Agreement</Link>
                         </Checkbox>
                     </Form.Item>
 
-                    <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-                            Register
-                        </Button>
+                    <Form.Item >
+                       
+                        <button
+                            data-ripple-light="true"
+                            type="submit"
+                            className="block w-full select-none rounded-lg bg-gradient-to-tr from-blue-600 to-blue-400 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-cyan-500/20 transition-all hover:shadow-lg hover:shadow-cyan-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        >
+                            Sign In
+                        </button>
+
                     </Form.Item>
                 </Form>
             </div></>

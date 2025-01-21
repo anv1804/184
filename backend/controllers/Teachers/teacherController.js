@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Class = require("../../models/Class");
+const Class = require("../../models/Class/ClassModel");
 const User = require("../../models/User");
 const Subject = require("../../models/Subjects/SubjectModel");
 

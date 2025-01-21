@@ -11,7 +11,7 @@ const teacherSchema = new mongoose.Schema({
     default:
       "https://static.vecteezy.com/system/resources/previews/042/891/253/non_2x/professional-teacher-avatar-illustration-for-education-concept-vector.jpg",
   },
-  age: { type: Number, required: false, default: 20 },
+  birth: { type: String, required: false, default: "1/1/2025" },
   gender: { type: String, required: true, default: "Male" },
   description: {
     type: String,

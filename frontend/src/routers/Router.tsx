@@ -9,7 +9,6 @@ import ClassroomDetail from '../pages/clients/ClassroomDetail';
 import Chat from '../pages/Chat';
 import Login from '../pages/Login';
 import AdminClassroom from '../pages/admins/AdminClassroom';
-import AdminClassManager from '../pages/admins/AdminClassManager';
 import AddClassAdminClassManager from '../pages/admins/AddClassAdminClassManager';
 import LayoutAdmin from '../components/layouts/LayoutAdmin';
 import AdminStudentManager from '../pages/admins/AdminStudentManager';
@@ -18,6 +17,8 @@ import AdminDashboard from '../pages/admins/AdminDashboard';
 import AdminTeacherManager from '../pages/admins/ManagerTeacher/AdminTeacherManager';
 import AdminTeacherCreate from '../pages/admins/ManagerTeacher/AdminTeacherCreate';
 import AdminSubjectManager from '../pages/admins/ManagerSubject/AdminSubjectManager';
+import AdminClassManager from '../pages/admins/ManagerClass/AdminClassManager';
+import AdminClassCreate from '../pages/admins/ManagerClass/AdminClassCreate';
 
 const AppRouter = () => {
   return (
@@ -43,6 +44,7 @@ const AppRouter = () => {
         <Route path="/admin/giao-vien" element={<AdminTeacherManager />} />
         <Route path="/admin/giao-vien/them-moi" element={<AdminTeacherCreate />} />
         <Route path="/admin/mon-hoc" element={<AdminSubjectManager />} />
+        <Route path="/admin/lop-hoc/them-moi" element={<AdminClassCreate />} />
 
       </Route>
     </Routes>

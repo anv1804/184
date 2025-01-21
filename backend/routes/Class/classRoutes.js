@@ -7,12 +7,14 @@ const {
   deleteClass,
   updateStudentsInClass,
   updateHomeroomTeacher,
-} = require("../controllers/classController");
-
+  createMultipleClasses,
+  uploadClasses,
+} = require("../../controllers/Class/classController");
+const upload = require("../../middleware/uploadFile");
 const router = express.Router();
 
 // Tạo lớp mới
-router.post("/create", createClass);
+router.post("/", createMultipleClasses);
 
 // Lấy thông tin tất cả các lớp
 router.get("/", getAllClasses);
@@ -32,4 +34,5 @@ router.put("/:id/students", updateStudentsInClass);
 // Cập nhật giáo viên chủ nhiệm của lớp
 router.put("/:id/homeroomTeacher", updateHomeroomTeacher);
 
+router.put("/upload/:id", upload, updateClass);
 module.exports = router;

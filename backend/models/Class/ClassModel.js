@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 // Schema cho Class
 const classSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  homeroomTeacher: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  homeroomTeacher: { type: mongoose.Schema.Types.ObjectId, ref: "Teacher" },
   students: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   subjects: [
     {
@@ -11,6 +11,8 @@ const classSchema = new mongoose.Schema({
       teacher: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     },
   ],
+  pointRanking: { type: Number, required: false, default: 0 },
+  grade: { type: Number, required: false, default: 10 },
 });
 classSchema.virtual("studentsCount").get(function () {
   return this.students ? this.students.length : 0;

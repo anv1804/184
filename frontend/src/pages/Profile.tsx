@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import './Profile.css';
+import { Link, useParams } from 'react-router-dom';
+import { getTeacherById } from '../services/admin/adminTeacherService';
+import { getStudentById } from '../services/admin/adminStudentService';
+import { Student } from '../interfaces/Student';
 
 const Profile: React.FC = () => {
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  const [user, setUser] = useState<Student>();
+  const [loading, setLoading] = useState(false);
+  const { id } = useParams()
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await getTeacherById(id);
+      console.log(data);
+      setUser(data)
+    };
+    loadData();
+  }, [id]);
 
   return (
     <section className="relative pt-36 pb-24">
@@ -24,8 +39,8 @@ const Profile: React.FC = () => {
           <ul className="flex items-center gap-5">
             <li>
               {" "}
-              <a
-                href="javascript:;"
+              <Link
+                to={`/`}
                 className="flex items-center gap-2 cursor-pointer group"
               >
                 <svg
@@ -45,7 +60,7 @@ const Profile: React.FC = () => {
                 <span className="font-medium text-base leading-7 text-gray-900">
                   Home
                 </span>
-              </a>
+              </Link>
             </li>
             <li>
               {" "}
@@ -101,19 +116,19 @@ const Profile: React.FC = () => {
             </li>
           </ul>
           <div className="flex items-center gap-4">
-            <button className="rounded-full border border-solid border-gray-300 bg-gray-50 py-3 px-4 text-sm font-semibold text-gray-900 shadow-sm shadow-transparent transition-all duration-500 hover:shadow-gray-50 hover:bg-gray-100 hover:border-gray-300">
+            <Link to={`/tro-chuyen/${user?._id}`} className="rounded-full border border-solid border-gray-300 bg-gray-50 py-3 px-4 text-sm font-semibold text-gray-900 shadow-sm shadow-transparent transition-all duration-500 hover:shadow-gray-50 hover:bg-gray-100 hover:border-gray-300">
               Message
-            </button>
+            </Link>
             <button className="rounded-full border border-solid border-indigo-600 bg-indigo-600 py-3 px-4 text-sm font-semibold text-white whitespace-nowrap shadow-sm shadow-transparent transition-all duration-500 hover:shadow-gray-200 hover:bg-indigo-700 hover:border-indigo-700">
               Book a Session
             </button>
           </div>
         </div>
         <h3 className="text-center font-manrope font-bold text-3xl leading-10 text-gray-900 mb-3">
-          Jenny Wilson
+          {user?.name}
         </h3>
         <p className="font-normal text-base leading-7 text-gray-500 text-center mb-8">
-          A social media influencers and singer
+          {user?.description}
         </p>
         <div className="flex items-center justify-center gap-5">
           <a
@@ -407,4 +422,5 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile; 
+export default Profile;
+
